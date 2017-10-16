@@ -1,10 +1,68 @@
 console.log("Welcome to LIRI Bot");
 
 
+var inquirer = require("inquirer");
 
 var keys = require('./keys.js');  //imports keys in 
  
-var userInput = process.argv[2];
+//var userInput = process.argv[2];
+
+
+
+//input commands
+inquirer.prompt([
+  {
+    type: "list",
+    name: "LIRIBotCommands",
+    message: "Please input a Command",
+    choices: ["my-tweets","spotify-this-song","movie-this","do-what-it-says"],
+  },
+
+]).then(function(command) {
+
+  if(command.LIRIBotCommands === "my-tweets") { //need to refer to the prompt object
+    getTweet();
+  }else if (command.LIRIBotCommands === "spotify-this-song") {
+    
+    inquirer.prompt([
+    {
+      type: "input",
+      name: "enterSongName",
+      message: "please enter song name ?"
+    }
+    ]).then(function(songName) {
+      getSpotify(songName.enterSongName);
+    });
+
+
+  }else if (command.LIRIBotCommands === "movie-this") {
+    
+    inquirer.prompt([
+    {
+      type: "input",
+      name: "enterMovieName",
+      message: "please enter movie name?"
+    }
+    ]).then(function(movieName) {
+      
+      getIMDB(movieName.enterMovieName);
+    });
+
+
+  }else {
+    doWhatItSays();
+  }
+
+
+
+
+});
+
+
+
+
+
+
 
   //do what it says
   function doWhatItSays() {
@@ -29,16 +87,12 @@ var userInput = process.argv[2];
 
 }
 
-doWhatItSays();
-
-
-
 
 //call IMDB API
 function getIMDB(movieName) {
 
   var request = require("request"); //calling the API
-  var queryURL = "http://www.omdbapi.com/?apikey=40e9cece&t=" + movie;
+  var queryURL = "http://www.omdbapi.com/?apikey=40e9cece&t=" + movieName;
 
 
 var request = require('request');
