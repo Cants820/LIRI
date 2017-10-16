@@ -1,6 +1,5 @@
 console.log("Welcome to LIRI Bot");
 
-
 var inquirer = require("inquirer");
 
 var keys = require('./keys.js');  //imports keys in 
@@ -57,11 +56,6 @@ inquirer.prompt([
 
 
 });
-
-
-
-
-
 
 
   //do what it says
@@ -127,16 +121,10 @@ function getSpotify(songName) {
     
     keys.spotifyKeys.search({ type: 'track' , query: songName }, function(err, data) {
       
-
         if (err) { //
+           
+           getSpotify("The-Sign"); 
            return console.log('Error occurred: ' + err);
-          songName = "The-Sign";
-          console.log("##############################");
-          console.log("Artists: " + data.tracks.items[0].artists[0].name); //artists
-          console.log("The Song's Name: " + data.tracks.items[0].name); //song name
-          console.log("Preview Link: " + data.tracks.items[0].external_urls.spotify); //preview url
-          console.log("Album: " + data.tracks.items[0].album.name); //album
-          console.log("###############################");
 
         } else {
 
