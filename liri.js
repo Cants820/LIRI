@@ -7,57 +7,70 @@ var keys = require('./keys.js');  //imports keys in
 //var userInput = process.argv[2];
 
 
-
+function LIRI(){// attempt to make my work recursive
 //input commands
-inquirer.prompt([
-  {
-    type: "list",
-    name: "LIRIBotCommands",
-    message: "Please input a Command",
-    choices: ["my-tweets","spotify-this-song","movie-this","do-what-it-says"],
-  },
-
-]).then(function(command) {
-
-  if(command.LIRIBotCommands === "my-tweets") { //need to refer to the prompt object
-    getTweet();
-  }else if (command.LIRIBotCommands === "spotify-this-song") {
-    
     inquirer.prompt([
-    {
-      type: "input",
-      name: "enterSongName",
-      message: "please enter song name ?"
-    }
-    ]).then(function(songName) {
-      getSpotify(songName.enterSongName);
+      {
+        type: "list",
+        name: "LIRIBotCommands",
+        message: "Please input a Command",
+        choices: ["my-tweets","spotify-this-song","movie-this","do-what-it-says"],
+      },
+
+    ]).then(function(command) {
+
+      if(command.LIRIBotCommands === "my-tweets") { //need to refer to the prompt object
+        getTweet();
+      }else if (command.LIRIBotCommands === "spotify-this-song") {
+        
+        inquirer.prompt([
+        {
+          type: "input",
+          name: "enterSongName",
+          message: "please enter song name ?"
+        }
+        ]).then(function(songName) {
+
+          
+        if (songName.enterSongName === ""){
+          getSpotify("Ace-Of-Base");
+
+        } else {
+          getSpotify(songName.enterSongName);
+        }
+        
+        });
+
+
+      }else if (command.LIRIBotCommands === "movie-this") {
+        
+        inquirer.prompt([
+        {
+          type: "input",
+          name: "enterMovieName",
+          message: "please enter movie name?"
+        }
+        ]).then(function(movieName) {
+          
+          if (movieName.enterMovieName === "") {
+            getIMDB("Mr.Nobody");
+          } else {
+            getIMDB(movieName.enterMovieName);  
+          }
+
+        });
+
+
+      }else {
+        doWhatItSays();
+      }
+
+
+
+
     });
 
-
-  }else if (command.LIRIBotCommands === "movie-this") {
-    
-    inquirer.prompt([
-    {
-      type: "input",
-      name: "enterMovieName",
-      message: "please enter movie name?"
-    }
-    ]).then(function(movieName) {
-      
-      getIMDB(movieName.enterMovieName);
-    });
-
-
-  }else {
-    doWhatItSays();
-  }
-
-
-
-
-});
-
-
+}
   //do what it says
   function doWhatItSays() {
 
@@ -74,7 +87,8 @@ inquirer.prompt([
   console.log(dataSong);
 
   getSpotify(dataSong);
-
+  
+  
 
   });
 
@@ -104,6 +118,7 @@ var request = require('request');
       console.log("Language: " + JSON.parse(body).Language);
       console.log("Plot: " + JSON.parse(body).Plot);
       console.log("Actors: " + JSON.parse(body).Actors);
+   
      // * Title of the movie.
      // * Year the movie came out.
      // * IMDB Rating of the movie.
@@ -113,6 +128,7 @@ var request = require('request');
      // * Plot of the movie.
      // * Actors in the movie.
     }
+    
   });
 }
 
@@ -121,24 +137,23 @@ function getSpotify(songName) {
     
     keys.spotifyKeys.search({ type: 'track' , query: songName }, function(err, data) {
       
-        if (err) { //
-           
-           getSpotify("The-Sign"); 
+
+      if (err) {
            return console.log('Error occurred: ' + err);
-
-        } else {
-
+       } else {
         console.log("##############################");
         console.log("Artists: " + data.tracks.items[0].artists[0].name); //artists
         console.log("The Song's Name: " + data.tracks.items[0].name); //song name
         console.log("Preview Link: " + data.tracks.items[0].external_urls.spotify); //preview url
         console.log("Album: " + data.tracks.items[0].album.name); //album
         console.log("###############################");
-       
-        }
-    });
+       };
 
+      
+
+    })
 }
+
 
 
 
@@ -156,10 +171,11 @@ function getTweet() {
           }
 
         }
+        
     });
 }
 
-
+LIRI();
 
 
 
