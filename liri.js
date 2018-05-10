@@ -136,7 +136,6 @@ var request = require('request');
 function getSpotify(songName) {
     
     keys.spotifyKeys.search({ type: 'track' , query: songName }, function(err, data) {
-      
 
       if (err) {
            return console.log('Error occurred: ' + err);
@@ -149,7 +148,7 @@ function getSpotify(songName) {
         console.log("###############################");
        };
 
-      
+      console.log(data.tracks);
 
     })
 }

@@ -16,8 +16,6 @@ var Spotify = require('node-spotify-api');
       secret: "d46515a30dfe4068a99f92ec2dfe8c7c"
     });
    
-
-
 module.exports ={
     twitterKeys: twitterKeys,
     spotifyKeys: spotifyKeys,

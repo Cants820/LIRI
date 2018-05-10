@@ -27,4 +27,4 @@ function getTweet() {
 
 
 ##Listing of Technologies Used
-Node.js, 
+Node.js
